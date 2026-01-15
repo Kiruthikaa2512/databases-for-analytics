@@ -1,6 +1,6 @@
 # Exercise 01: World Database SQL Practice
 
-- Name:
+- Name: Kiruthikaa NS
 - Course: Database for Analytics
 - Module: 1
 - Database Used: World Database
@@ -27,7 +27,12 @@
 Why were these data types selected?
 
 ### Answer
-_Write your explanation here._
+`country.Population` uses an integer data type because population is a count of people and must be a whole number. Fractions do not make sense for population, and integer types are efficient for storing large whole numbers.
+
+`country.LifeExpectancy` uses a decimal data type because life expectancy often includes fractional values, such as 72.5 years. A decimal type allows storing both whole and fractional parts accurately.
+
+These data types were selected because they match the real-world nature of the data- population is a whole-number count, while life expectancy is a measured value that can include decimals. 
+
 
 ### Screenshot
 _Show the table structure or DESCRIBE output._
@@ -46,7 +51,10 @@ DESCRIBE country;
 Why do you think this data type was selected?
 
 ### Answer
-_Write your explanation here._
+The data type of `country.IndepYear` is `smallint`.
+
+This data type was selected because independence years are small whole numbers, usually between the 1700s and 2000s. A `smallint` uses less storage than a regular integer and is enough to store year values. It also allows NULL values for countries that do not have an independence year.
+
 
 ### Screenshot
 
@@ -64,7 +72,11 @@ DESCRIBE country;
 Explain why your proposed data type might be better in some situations.
 
 ### Answer
-_Write your explanation here._
+A possible alternative data type for `country.IndepYear` is the `YEAR` data type.
+
+Using `YEAR` would make the meaning of the column clearer, because it directly represents a year rather than a general number. It also helps with validation, since MySQL can restrict values to valid year formats.
+
+In situations where we want to perform date-related calculations, comparisons by decade, or formatting based on year, using the `YEAR` type can be more expressive and easier to understand than using a generic numeric type like `smallint`.
 
 ---
 
