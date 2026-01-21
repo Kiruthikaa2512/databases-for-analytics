@@ -233,9 +233,9 @@ Using the World database, write the SQL command to **find cities where the distr
 SELECT id, name, countrycode, district
 FROM city
 WHERE district IS NULL
-   OR district = '-'
-   OR district LIKE '-%';
-
+   OR TRIM(district) = ''
+   OR TRIM(TRANSLATE(district, '-–', '')) = ''
+ORDER BY countrycode, name;
 ```
 
 ### Screenshot
