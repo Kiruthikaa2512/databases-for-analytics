@@ -1,6 +1,6 @@
 # Exercise 02: World Database – Joins, Grouping, and Data Quality
 
-- Name:
+- Name: Kiruthikaa
 - Course: Database for Analytics
 - Module: 2
 - Database Used: World Database (PostgreSQL)
