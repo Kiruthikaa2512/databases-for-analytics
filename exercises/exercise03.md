@@ -24,16 +24,14 @@
 When importing the documents from `restaurants-json.json`, **how many documents were imported into your collection**?
 
 ### Answer
-_Write the number of documents imported._
+25358
 
 ### Screenshot
-_Show evidence of how you determined this (for example, a count query)._
+![Q1 Screenshot](screenshots/q1_document_count.png)
 
 ```javascript
-// Your MongoDB command here
+db.restaurants.countDocuments()
 ```
-
-![Q1 Screenshot](screenshots/q1_document_count.png)
 
 ---
 
@@ -44,7 +42,7 @@ Before writing queries on the data, **what command do you use to set the MongoDB
 ### MongoDB Command
 
 ```javascript
-// Your MongoDB command here
+use 44661
 ```
 
 ### Screenshot
@@ -60,7 +58,7 @@ Using your `restaurants` collection in the `44661` database, write the MongoDB q
 ### MongoDB Query
 
 ```javascript
-// Your MongoDB query here
+db.restaurants.find({ borough: "Queens" })
 ```
 
 ### Screenshot
@@ -73,10 +71,11 @@ Using your `restaurants` collection in the `44661` database, write the MongoDB q
 
 Using your `restaurants` collection in the `44661` database, write the MongoDB query needed to **find the number of restaurants in the `"Queens"` borough**.
 
+Answer: 5656
 ### MongoDB Query
 
 ```javascript
-// Your MongoDB query here
+db.restaurants.countDocuments({ borough: "Queens" })
 ```
 
 ### Screenshot
@@ -89,10 +88,11 @@ Using your `restaurants` collection in the `44661` database, write the MongoDB q
 
 Using your `restaurants` collection in the `44661` database, write the MongoDB query needed to **find the number of restaurants in the `"Queens"` borough whose cuisine is `"Hamburgers"`**.
 
+Answer: 104
 ### MongoDB Query
 
 ```javascript
-// Your MongoDB query here
+db.restaurants.countDocuments({ borough: "Queens", cuisine: "Hamburgers" })
 ```
 
 ### Screenshot
@@ -106,11 +106,12 @@ Using your `restaurants` collection in the `44661` database, write the MongoDB q
 Using your `restaurants` collection in the `44661` database, write the MongoDB query needed to **find the number of restaurants in Zipcode `10460`**.
 
 *Hint: Look up how to query **embedded documents**.*
+Answer: 68
 
 ### MongoDB Query
 
 ```javascript
-// Your MongoDB query here
+db.restaurants.countDocuments({ "address.zipcode": "10460" })
 ```
 
 ### Screenshot
@@ -139,7 +140,10 @@ Your output should resemble:
 ### MongoDB Query
 
 ```javascript
-// Your MongoDB query here
+db.restaurants.find(
+  { "address.zipcode": "10460" },
+  { _id: 0, name: 1 }
+)
 ```
 
 ### Screenshot
@@ -159,7 +163,10 @@ Your results should include:
 ### MongoDB Query
 
 ```javascript
-// Your MongoDB query here
+db.restaurants.find(
+  { name: { $regex: "ihop", $options: "i" } },
+  { _id: 0, name: 1 }
+)
 ```
 
 ### Screenshot
