@@ -138,7 +138,7 @@ After looking at the data, **why is this the case?**
 
 ### Answer
 
-When I looked through the records where the opened date shows up earlier than the sent date, a pattern stood out right away. All of the sent_date values use the exact same time of day - 15:00:00 which doesn’t look like a real event timestamp. It feels more like a default or may be a placeholder time that was assigned during data entry or import. The opened_date values, on the other hand, have natural‑looking times that vary throughout the day. Because the sent timestamps aren’t accurate, comparing them to the opened timestamps creates situations where it looks like the email was opened before it was sent. So the issue isn’t with the logic — it’s simply a data quality problem caused by inconsistent timestamp recording.
+When I looked through the records where the opened date shows up earlier than the sent date, a pattern stood out right away. All of the sent_date values use the exact same time of day - 15:00:00 which doesn’t look like a real event timestamp. It feels more like a default or may be a placeholder time that was assigned during data entry or import. The opened_date values, on the other hand, have natural‑looking times that vary throughout the day. Because the sent timestamps aren’t accurate, comparing them to the opened timestamps creates situations where it looks like the email was opened before it was sent. So the issue isn’t with the logic, it’s simply a data quality problem caused by inconsistent timestamp recording.
 
 
 ### Screenshot (if requested by instructor)
