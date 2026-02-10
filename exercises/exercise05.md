@@ -1,8 +1,8 @@
 # Exercise 05: SQLDA Database - Dates, Data Quality, Arrays, and JSON
 
-- Name:
+- Name:Kiruthikaa
 - Course: Database for Analytics
-- Module:
+- Module: 5
 - Database Used:  `sqlda` (Sample Datasets)
 - Tools Used: PostgreSQL (pgAdmin or psql)
 
@@ -42,7 +42,10 @@ year
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT DISTINCT EXTRACT(YEAR FROM sent_date) AS year
+FROM emails
+WHERE sent_date IS NOT NULL
+ORDER BY year;
 ```
 
 ### Screenshot
@@ -65,7 +68,13 @@ count   year
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT 
+    COUNT(*) AS count,
+    EXTRACT(YEAR FROM sent_date) AS year
+FROM emails
+WHERE sent_date IS NOT NULL
+GROUP BY year
+ORDER BY year;
 ```
 
 ### Screenshot
@@ -86,7 +95,13 @@ Only include emails that contain **both** a sent date and an opened date.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT 
+    sent_date,
+    opened_date,
+    opened_date - sent_date AS interval
+FROM emails
+WHERE sent_date IS NOT NULL
+  AND opened_date IS NOT NULL;
 ```
 
 ### Screenshot
@@ -102,7 +117,11 @@ Using the `sqlda` database, write the SQL needed to show emails that contain an 
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT 
+    sent_date,
+    opened_date
+FROM emails
+WHERE opened_date < sent_date;
 ```
 
 ### Screenshot
@@ -119,7 +138,8 @@ After looking at the data, **why is this the case?**
 
 ### Answer
 
-_Write your explanation here._
+When I looked through the records where the opened date shows up earlier than the sent date, a pattern stood out right away. All of the sent_date values use the exact same time of day - 15:00:00 which doesn’t look like a real event timestamp. It feels more like a default or may be a placeholder time that was assigned during data entry or import. The opened_date values, on the other hand, have natural‑looking times that vary throughout the day. Because the sent timestamps aren’t accurate, comparing them to the opened timestamps creates situations where it looks like the email was opened before it was sent. So the issue isn’t with the logic — it’s simply a data quality problem caused by inconsistent timestamp recording.
+
 
 ### Screenshot (if requested by instructor)
 
@@ -160,7 +180,12 @@ CREATE TEMP TABLE customer_dealership_distance AS (
 
 ### Answer
 
-_Write your explanation here._
+This code creates three temporary tables, each with a specific purpose.
+The first temp table, customer_points, stores two columns: the customer_id and a combined latitude and longitude value for customers who actually have coordinates.
+The second temp table, dealership_points, does the same thing for dealerships, with dealership_id and their coordinate value.
+
+Once those two tables are set up, the last temp table, customer_dealership_distance, takes every customer from the first table and matches them with every dealership from the second table. For each pair, it calculates the distance between their coordinates using the <@> operator from the earthdistance extension. The result is a list of all customer - dealership combinations along with how far apart they are.
+
 
 ---
 
@@ -177,7 +202,15 @@ For example - dealership 1 is below:
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT 
+    dealership_id,
+    ARRAY_AGG(
+        last_name || ',' || first_name
+        ORDER BY last_name, first_name
+    ) AS salespeople
+FROM salespeople
+GROUP BY dealership_id
+ORDER BY dealership_id;
 ```
 
 ### Screenshot
@@ -202,7 +235,19 @@ Reference image:
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT 
+    d.state,
+    sp.dealership_id,
+    ARRAY_AGG(
+        sp.last_name || ',' || sp.first_name
+        ORDER BY sp.last_name, sp.first_name
+    ) AS salespeople,
+    COUNT(*) AS number_of_salespeople
+FROM salespeople sp
+JOIN dealerships d 
+    ON sp.dealership_id = d.dealership_id
+GROUP BY d.state, sp.dealership_id
+ORDER BY d.state;
 ```
 
 ### Screenshot
@@ -218,7 +263,8 @@ Using the `sqlda` database, write the SQL needed to convert the **customers** ta
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT json_agg(c)
+FROM customers c;
 ```
 
 ### Screenshot
@@ -244,7 +290,22 @@ Reference image:
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT json_agg(result)
+FROM (
+    SELECT 
+        d.state,
+        sp.dealership_id,
+        ARRAY_AGG(
+            sp.last_name || ',' || sp.first_name
+            ORDER BY sp.last_name, sp.first_name
+        ) AS salespeople,
+        COUNT(*) AS number_of_salespeople
+    FROM salespeople sp
+    JOIN dealerships d 
+        ON sp.dealership_id = d.dealership_id
+    GROUP BY d.state, sp.dealership_id
+    ORDER BY d.state
+) AS result;
 ```
 
 ### Screenshot
