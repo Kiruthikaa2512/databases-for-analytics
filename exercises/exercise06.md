@@ -1,7 +1,7 @@
 # Module 6 - Exercise 1: Creating a Data Warehouse
 From the Operational Model to the Dimensional Model
 
-- Name:
+- Name:Kiruthikaa NS
 - Course: Database for Analytics
 - Module: 6
 
@@ -121,4 +121,6 @@ In 1-2 short paragraphs, explain:
 
 #### Design Notes
 
-_Write your design notes here._
+For this data warehouse, I modeled the Customer Sales process using a simple star schema. The fact table is built at the grain of one row per day per customer per part, which matches the requirement for daily sales reporting. This also keeps the warehouse focused on analysis instead of order-level details (since we don’t care about reporting on individual orders). The fact table stores only the two required measures: quantity (how many units were sold) and amount (the total revenue for those units). These values are calculated by aggregating the operational sales data from the orders and orderline tables before loading into the warehouse.
+
+The dimensions I included were DimDate, DimCustomer, and DimPart. DimDate makes it easy to group sales by month, quarter, and year (for example, September 1994 or Q3 1994). DimCustomer supports customer-based analysis and location-based questions like revenue by zip code. DimPart supports analysis by part number and category (such as appliance vs sporting). With this design, we can answer questions like how many of part ax12 were sold on September 2, 1994, how much customer 124 spent last year, and how many appliance items were sold during the third quarter of 1994.
