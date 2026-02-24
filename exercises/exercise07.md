@@ -253,3 +253,4 @@ This project demonstrates:
 - Executing grouped aggregation queries
 - Performing time-based analytics
 
+This database model now enables easy exploration of procurement trends and supports analytical queries that would be difficult with the raw CSV alone.
